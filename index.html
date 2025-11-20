@@ -1,578 +1,492 @@
 <!DOCTYPE html>
-<html lang="ko" style="scroll-behavior: smooth;">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>힐링트리 웰니스 프로그램 - 마음·몸·얼굴 밸런스 프로젝트</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>힐링트리 | 마음·몸·얼굴 밸런스 프로젝트</title>
     
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
-        body {
-            font-family: 'Noto Sans KR', 'Inter', sans-serif;
-        }
+        body { font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; }
+        h1, h2, h3, .serif { font-family: 'Nanum Myeongjo', serif; }
         
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-        
-        .faq-answer {
-            display: none;
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .faq-answer.active {
-            display: block;
-            max-height: 300px; /* 충분한 높이 설정 */
-            opacity: 1;
-        }
-        
-        .nav-link.active {
-            font-weight: 700;
-            color: #059669; 
-            border-bottom: 2px solid #059669;
-        }
-        
-        .tab-button.active {
-            background-color: #059669;
-            color: white;
-            border-color: #059669;
-        }
+        /* 탭 전환 애니메이션 */
+        .tab-content { display: none; animation: fadeIn 0.5s; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* FAQ 아코디언 스타일 */
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-item.active .faq-answer { max-height: 300px; }
+        .faq-icon { transition: transform 0.3s; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+
+        /* 이미지 호버 효과 */
+        .hover-zoom img { transition: transform 0.5s ease; }
+        .hover-zoom:hover img { transform: scale(1.05); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-[#F9F7F2] text-[#2C3E50]">
 
-    <header class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="#home" style="color:#3CB371;" class="text-2xl font-bold text-green-700"><img src="https://breezefeel.github.io/healingtree.github.io/힐링트리 로고그림.png"alt="힐링트리 로고" 
-                    style="display:inline; height:2em; vertical-align:middle;"> 힐링트리
-                    </a>
-                </div>
-                <div class="hidden md:flex md:space-x-6 lg:space-x-8">
-                    <a href="#about" class="nav-link text-gray-600 hover:text-green-700 px-2 py-1 transition-all duration-200">핵심 개념</a>
-                    <a href="#program" class="nav-link text-gray-600 hover:text-green-700 px-2 py-1 transition-all duration-200">세부 일정</a>
-                    <a href="#outcomes" class="nav-link text-gray-600 hover:text-green-700 px-2 py-1 transition-all duration-200">프로그램 효과</a>
-                    <a href="#details" class="nav-link text-gray-600 hover:text-green-700 px-2 py-1 transition-all duration-200">운영 안내</a>
-                    <a href="#faq" class="nav-link text-gray-600 hover:text-green-700 px-2 py-1 transition-all duration-200">FAQ</a>
-                </div>
-                <div class="md:hidden">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-green-700 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                    </button>
-                </div>
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-[#4A6C46] flex items-center gap-2">
+                <img src="https://breezefeel.github.io/healingtree.github.io/힐링트리 로고그림.png" alt="힐링트리 로고" 
+                    style="display:inline; height:1.5em; vertical-align:middle;"> 힐링트리
+            </a>
+            <div class="hidden md:flex space-x-8 font-medium text-gray-600">
+                <a href="#about" class="hover:text-[#4A6C46] transition">핵심 개념</a>
+                <a href="#program" class="hover:text-[#4A6C46] transition">세부 일정</a>
+                <a href="#details" class="hover:text-[#4A6C46] transition">운영 안내</a>
+                <a href="#faq" class="hover:text-[#4A6C46] transition">문의하기</a>
             </div>
-            <div id="mobile-menu" class="md:hidden hidden flex-col space-y-2 py-4">
-                <a href="#about" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">핵심 개념</a>
-                <a href="#program" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">세부 일정</a>
-                <a href="#outcomes" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">프로그램 효과</a>
-                <a href="#details" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">운영 안내</a>
-                <a href="#data" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">나의 성장 기록</a>
-                <a href="#faq" class="nav-link block text-gray-600 hover:text-green-700 px-3 py-2 rounded-md transition-all duration-200">FAQ</a>
-            </div>
-        </nav>
-    </header>
+            <a href="http://pf.kakao.com/_nVSxdn/chat" class="hidden md:inline-block bg-[#4A6C46] text-white px-6 py-2 rounded-full hover:bg-[#3A5538] transition shadow-lg">상담 신청</a>
+        </div>
+    </nav>
 
-    <main>
-        <section id="home" class="bg-emerald-50 py-20 md:py-32">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-5xl font-bold text-green-800 mb-4">마음·몸·얼굴<br>밸런스 프로젝트</h1>
-                <p class="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">"건강한 마음, 바른 몸, 아름다운 표정으로 완성하는 진정한 건강"</p>
-            </div>
-        </section>
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=2070&auto=format&fit=crop" alt="Healing Tree Background" class="w-full h-full object-cover opacity-90 brightness-75">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9F7F2]"></div>
+        </div>
 
-        <section id="about" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">프로그램 핵심 방향성</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        한 그루의 나무가 뿌리, 줄기, 열매가 모두 건강해야 하듯, 우리의 마음-몸-얼굴이 조화롭게 균형을 이루어야 합니다.
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        <span class="text-5xl">🌱</span>
-                        <h3 class="text-2xl font-bold text-green-700 my-3">건강한 마음 (뿌리)</h3>
-                        <p class="text-gray-700">나와 주변을 이해하는 내면의 건강. 자신의 선천적 성향을 이해하고 타인의 다양성을 존중하는 태도를 기릅니다.</p>
-                    </div>
-                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        <span class="text-5xl">🧍</span>
-                        <h3 class="text-2xl font-bold text-green-700 my-3">바른 몸 (줄기)</h3>
-                        <p class="text-gray-700">건강한 신체를 지키는 구조적 건강. 척추 건강의 중요성을 깨닫고 스스로 자세를 점검하고 관리하는 법을 배웁니다.</p>
-                    </div>
-                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        <span class="text-5xl">😊</span>
-                        <h3 class="text-2xl font-bold text-green-700 my-3">밝은 표정 (열매)</h3>
-                        <p class="text-gray-700">자신감 있는 표현과 소통의 건강. 건강한 얼굴 근육 사용법과 자신감 있는 표정을 만들어 사회성을 향상시킵니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="program" class="py-16 md:py-24 bg-gray-50">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">그룹 프로그램 일정</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        힐링트리 프로그램 예시로, 총 3교시로 진행되는 중고등학교 프로그램 입니다. <br>힐링트리 수업은 모두 See(관찰) - Judge(판단) - Act(행동) 순으로 구성되어 있습니다. 탭을 클릭하여 각 교시별 활동 내용을 확인해 보세요.
-                    </p>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-xl overflow-hidden">
-                    <div class="flex flex-wrap border-b border-gray-200">
-                        <button class="tab-button flex-1 py-4 px-6 font-semibold text-gray-600 hover:bg-gray-100 transition-colors duration-200 focus:outline-none active" data-tab="tab1">
-                            1교시:<br>건강 마음
-                        </button>
-                        <button class="tab-button flex-1 py-4 px-6 font-semibold text-gray-600 hover:bg-gray-100 transition-colors duration-200 focus:outline-none" data-tab="tab2">
-                            2교시:<br>바른 몸
-                        </button>
-                        <button class="tab-button flex-1 py-4 px-6 font-semibold text-gray-600 hover:bg-gray-100 transition-colors duration-200 focus:outline-none" data-tab="tab3">
-                            3교시:<br>밝은 표정
-                        </button>
-                    </div>
-
-                    <div class="p-6 md:p-10">
-                        <div id="tab1" class="tab-content active">
-                            <h3 class="text-2xl font-bold text-green-700 mb-2">1교시: 건강한 마음 - "나는 누구일까?"</h3>
-                            <p class="text-gray-600 mb-4"><strong>핵심 메시지:</strong> "나도 몰랐던 나, 친구도 몰랐던 친구"</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">시간</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">내용</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">활동 방식</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-100">
-                                        <tr>
-                                            <td class="py-3 px-4">0-5분</td>
-                                            <td class="py-3 px-4">MBTI로 아이스 브레이킹</td>
-                                            <td class="py-3 px-4">사례를 통한 자리이동</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">5-20분</td>
-                                            <td class="py-3 px-4">내 성향 예상하기</td>
-                                            <td class="py-3 px-4">사례를 통한 자리이동</td>
-                                        </tr>          
-                                        <tr>
-                                            <td class="py-3 px-4">20-30분</td>
-                                            <td class="py-3 px-4">선천 성향 찾기 & 과학적 근거</td>
-                                            <td class="py-3 px-4">개인 워크시트</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">30-40분</td>
-                                            <td class="py-3 px-4">11가지 성향과 그룹 모임</td>
-                                            <td class="py-3 px-4">그룹 활동</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">40-45분</td>
-                                            <td class="py-3 px-4">학교생활 활용법 & 마무리</td>
-                                            <td class="py-3 px-4">강의</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="tab2" class="tab-content">
-                            <h3 class="text-2xl font-bold text-green-700 mb-2">2교시: 바른 자세 - "내 몸 바로 세우기"</h3>
-                            <p class="text-gray-600 mb-4"><strong>핵심 메시지:</strong> "지금 만든 자세 습관이 10년 후 내 몸을 결정해요."</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">시간</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">내용</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">활동 방식</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-100">
-                                        <tr>
-                                            <td class="py-3 px-4">0-5분</td>
-                                            <td class="py-3 px-4">내 자세 인식하기</td>
-                                            <td class="py-3 px-4">강의 + 셀프 체크</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">5-10분</td>
-                                            <td class="py-3 px-4">바른 자세란? 잘못된 자세의 문제점</td>
-                                            <td class="py-3 px-4">사례 공유</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">10-20분</td>
-                                            <td class="py-3 px-4">친구와 함께하는 자세 평가 (Adam's test 등)</td>
-                                            <td class="py-3 px-4">2인 1조 체험</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">20-35분</td>
-                                            <td class="py-3 px-4">자세 교정 운동 따라하기</td>
-                                            <td class="py-3 px-4">전체 운동 + 짝 활동</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">35-45분</td>
-                                            <td class="py-3 px-4">집에서 할 수 있는 3분 루틴 정리</td>
-                                            <td class="py-3 px-4">요약 및 질의응답</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div id="tab3" class="tab-content">
-                            <h3 class="text-2xl font-bold text-green-700 mb-2">3교시: 밝은 표정 - "나답게 표현하기"</h3>
-                            <p class="text-gray-600 mb-4"><strong>핵심 메시지:</strong> "건강한 얼굴 습관이 자신감을 만들어요."</p>
-                            <div class="overflow-x-auto">
-                                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                                    <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">시간</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">내용</th>
-                                            <th class="py-3 px-4 border-b text-left font-semibold text-gray-700">활동 방식</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="divide-y divide-gray-100">
-                                        <tr>
-                                            <td class="py-3 px-4">0-5분</td>
-                                            <td class="py-3 px-4">내 얼굴 인식하기</td>
-                                            <td class="py-3 px-4">강의 + 셀프 체크</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">5-15분</td>
-                                            <td class="py-3 px-4">얼굴 비대칭, 왜 생길까?</td>
-                                            <td class="py-3 px-4">사례 공유</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">15-25분</td>
-                                            <td class="py-3 px-4">친구와 함께 하는 얼굴 표정 평가</td>
-                                            <td class="py-3 px-4">2인 1조 체험</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">25-35분</td>
-                                            <td class="py-3 px-4">스마일 호흡과 뮤잉(Mewing)운동</td>
-                                            <td class="py-3 px-4">전체 운동 + 짝 활동</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="py-3 px-4">35-45분</td>
-                                            <td class="py-3 px-4">얼굴+자세 스트레칭과 마무리 운동</td>
-                                            <td class="py-3 px-4">요약 및 질의응답</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="outcomes" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">🌳 [통합적 웰니스 솔루션]<br>힐링트리가 선물하는 지속 가능한 성장 로드맵</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        한 번의 체험으로 끝나지 않도록, 마음·몸·얼굴의 선순환을 위한 **전문적인 변화 설계**와 **사후 실천 로드맵**을 추천합니다.
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="p-8 rounded-xl shadow-2xl bg-gradient-to-br from-green-50 to-emerald-100">
-                        <h3 class="text-2xl font-extrabold text-green-800 mb-6 border-b-2 border-green-300 pb-3">💡 프로그램 기대 효과</h3>
-                        <ul class="space-y-6 text-gray-700">
-                            <li class="flex items-start">
-                                <span class="text-green-600 text-2xl mr-3 mt-1">✨</span>
-                                <div><strong class="text-lg text-green-700">[내면의 나침반]<br> '나 다움'을 찾아주는 깊은 자기 이해와 공감 능력 확장</strong>
-                                <p class="text-sm mt-1">자신의 선천적 성향을 과학적으로 이해하고 타인의 다양성을 존중하는 성숙한 내면을 형성합니다.</p></div>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-green-600 text-2xl mr-3 mt-1">💪</span>
-                                <div><strong class="text-lg text-green-700">[성장의 주춧돌]<br> 평생 건강을 좌우하는 올바른 신체 인지 및 자세 습관 설계</strong>
-                                <p class="text-sm mt-1">척추 건강의 중요성을 깨닫고, 스스로 몸을 점검하고 교정하는 실천 능력을 배양합니다.</p></div>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-green-600 text-2xl mr-3 mt-1">💖</span>
-                                <div><strong class="text-lg text-green-700">[빛나는 표현력]<br> 건강한 얼굴 습관을 통한 긍정적 자기 효능감 회복</strong>
-                                <p class="text-sm mt-1">밝은 표정을 만들고 자신감을 가지고 당당하게 소통하여 대인관계 능력을 향상시킵니다.</p></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="p-8 rounded-xl shadow-2xl bg-gradient-to-br from-sky-50 to-blue-100">
-                        <h3 class="text-2xl font-extrabold text-blue-800 mb-6 border-b-2 border-blue-300 pb-3">🗺️ 사후 실천 로드맵</h3>
-                        <ul class="space-y-6 text-gray-700">
-                            <li class="flex items-start">
-                                <span class="text-blue-600 text-2xl mr-3 mt-1">☀️</span>
-                                <div><strong class="text-lg text-blue-700">매일의 약속 (Daily Wellness)</strong>
-                                <p class="text-sm mt-1">매일 아침 1분 '바른 자세'로 '웃는 얼굴'을 만들며'스스로를 칭찬'하는 습관 형성하기.</p></div>
-                            </li>
-                            <li class="flex items-start">
-                                <span class="text-blue-600 text-2xl mr-3 mt-1">🗓️</span>
-                                <div><strong class="text-lg text-blue-700">주간 점검 (Weekly Check)</strong>
-                                <p class="text-sm mt-1">가족과 함께 '얼굴/자세'정렬 상태를 진단 해보고, '성향 특징'을 보며 대화나누기.</p></div>
-                            </li>
-                            <div class="flex justify-center mt-6"> 
-                                <a href="https://breezefeel.github.io/happycard/" target="_blank" class="inline-block text-sm font-semibold text-white bg-pink-500 hover:bg-pink-600 py-1 px-3 rounded-full transition-colors">
-                                🔗 성향 특징 및 칭찬 카드 만들기
-                                </a>
-                            </div>
-                            <div class="flex justify-center mt-6"> 
-                                <a href="https://cafe.naver.com/ifc/171" target="_blank" class="inline-block text-sm font-semibold text-white bg-green-500 hover:bg-green-600 py-1 px-3 rounded-full transition-colors">
-                                🔗 바른 얼굴 및 자세 체크하기
-                                </a>
-                            </div>                            
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="details" class="py-16 md:py-24 bg-gray-50">
-             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">🤝 맞춤형 '힐링트리' 웰니스 프로그램 운영</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-                        다양한 학교 및 기관의 환경에 최적화된 유연한 프로그램과 강사진을 제안합니다.
-                    </p>
-                </div>
-                <div class="max-w-5xl mx-auto bg-white p-10 rounded-xl shadow-2xl border-t-4 border-green-600">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                        <div>
-                            <h3 class="text-xl font-bold text-green-700 mb-3">힐링트리 주요 프로그램</h3>
-                    
-                            <div class="space-y-4 text-gray-700 text-sm mb-6">
-                                <h4 class="font-semibold text-green-600 border-b border-green-200 pb-1">🌱 마음 (성향 기반)</h4>
-                                <ul class="ml-4 list-disc list-outside space-y-1">
-                                    <li>**개별:** 선천적 성향/재능 검사 및 상담</li>
-                                    <li>**그룹:** 선천적 성향 기반의 그룹 활동</li>
-                                    <li>**그룹:** 그림책 감정 코칭</li>
-                                </ul>
-
-                                <h4 class="font-semibold text-green-600 border-b border-green-200 pb-1">🤸 몸 (자세 및 운동)</h4>
-                                <ul class="ml-4 list-disc list-outside space-y-1">
-                                    <li>**개별:** 자세 교정 운동</li>
-                                    <li>**개별:** 수동적 P스트레칭</li>                                    
-                                    <li>**그룹:** 셀프 통증 관리를 위한 소도구 운동</li>
-                                    <li>**그룹:** 자세 교정 운동</li>
-                                    <li>**그룹:** 몸을 부드럽게 만드는 스트레칭</li>
-                                    <li>**그룹:** 부상 방지를 위한 스포츠 테이핑</li>
-                                </ul>
-                                <h4 class="font-semibold text-green-600 border-b border-green-200 pb-1">✨ 얼굴 (뷰티 & 웰니스)</h4>
-                                <ul class="ml-4 list-disc list-outside space-y-1">
-                                    <li>**개별:** 수기 관리 (바디)</li>
-                                    <li>**개별:** 수기 관리 (페이스)</li>
-                                    <li>**그룹:** 얼굴 운동 클래스</li>
-                                </ul>
-                            </div>         
-                        </div>
-                        <div>          
-                            <h3 class="text-xl font-bold text-green-700 mb-3">문의 안내</h3>
-                            <div class="text-gray-700 text-sm space-y-3">
-                                <p>
-                                    **✅ 개별 수업 안내:**<br>
-                                    지정된 힐링트리 공간으로 내원해주셔야 합니다.<br>※ 현재 서울 목동 / 인천 계양구 **예약 필수**
-                                    <br><br>
-                                    <a href="https://brand.site/ifas" target="_blank" class="block text-sm font-semibold text-white bg-pink-500 hover:bg-pink-600 py-1 px-3 rounded-full transition-colors">
-                                    🔗 선천적 성향 및 재능 검사
-                                    </a>
-                                    <br>
-                                    <a href="https://breezefeel.github.io/p-stretching/" target="_blank" class="block text-sm font-semibold text-white bg-green-500 hover:bg-green-600 py-1 px-3 rounded-full transition-colors">
-                                    🔗 리:얼 P-스트레칭<br>
-                                    </a>
-                                    <br>
-                                    <a href="https://brand.site/ifc/-" target="_blank" class="block text-sm font-semibold text-white bg-blue-500 hover:bg-blue-600 py-1 px-3 rounded-full transition-colors">
-                                    🔗 리:얼 작은얼굴 만들기<br>
-                                    </a>                                    
-                                </p>
-                                <p>
-                                    **✅ 그룹 수업 (방문 진행) 문의:**<br>
-                                    아래 항목을 복사하여 이메일로 보내주시면 참고하여 맞춤형 상담을 위해 연락드리겠습니다.<br><br>
-                                    1. 희망 프로그램<br>
-                                    2. 참여 인원수 및 진행 환경<br>
-                                    3. 프로그램에서 얻고자 하는 목표<br><br>
-                                    보내는 곳: drbreezepark@gmail.com<br>
-                                </p>                                 
-                                </a>
-                            </div>    
-                            </div>                                                
-                        </div>
-                        </div>
-                </div>
-            </div>
-        </section>        
-        <section id="faq" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">자주 묻는 질문 (FAQ)</h2>
-                    <p class="text-lg text-gray-600">
-                        궁금한 점이 있으신가요? 질문을 클릭하면 답변을 보실 수 있습니다.
-                    </p>
-                </div>
-                <div class="space-y-4">
-                    <div class="faq-item bg-gray-50 rounded-lg shadow-md">
-                        <button class="faq-question w-full flex justify-between items-center text-left px-6 py-5 focus:outline-none">
-                            <span class="text-lg font-semibold text-green-800">Q. 왜 세 가지(심리, 몸, 얼굴)를 한꺼번에 하나요?</span>
-                            <span class="faq-icon text-2xl text-green-700 transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="faq-answer px-6 pb-5 text-gray-700">
-                            <p>A. 건강은 분리되어 생각할 수 없습니다. 자세가 나쁘면 자신감이 떨어지고(심리), 스트레스를 받으면 몸이 긴장하며(자세), 표정이 굳으면 관계가 어려워집니다(얼굴). 세 가지는 모두 연결되어 있어 통합적으로 접근할 때 효과가 큽니다.</p>
-                        </div>
-                    </div>
+        <div class="container mx-auto px-6 relative z-10 text-center text-white mt-10">
+            <p class="text-lg md:text-xl mb-4 tracking-widest opacity-90" data-aos="fade-down">마음·몸·얼굴 밸런스 프로젝트</p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-lg" data-aos="fade-up">
+                건강한 마음, 바른 몸,<br>아름다운 표정으로 완성하는<br><span class="text-[#A8D5BA]">진정한 건강</span>
+            </h1>
             
-                    <div class="faq-item bg-gray-50 rounded-lg shadow-md">
-                        <button class="faq-question w-full flex justify-between items-center text-left px-6 py-5 focus:outline-none">
-                            <span class="text-lg font-semibold text-green-800">Q. 한 번의 프로그램으로 효과가 있을까요?</span>
-                            <span class="faq-icon text-2xl text-green-700 transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="faq-answer px-6 pb-5 text-gray-700">
-                            <p>A. 이 프로그램은 '변화의 시작점'입니다. 스스로 자신을 이해하고, 점검하고, 관리하는 방법을 배우는 것이 목표입니다. 가정에서 지속적으로 실천할 수 있도록 가이드해주세요.</p>
-                        </div>
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <div class="bg-white/90 backdrop-blur text-gray-800 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition duration-300 flex flex-col items-center border-t-4 border-brown-500 mt-0 md:mt-40" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 text-2xl mb-4">
+                        <i class="fa-solid fa-brain"></i>
                     </div>
-            
-                    <div class="faq-item bg-gray-50 rounded-lg shadow-md">
-                        <button class="faq-question w-full flex justify-between items-center text-left px-6 py-5 focus:outline-none">
-                            <span class="text-lg font-semibold text-green-800">Q. 그룹 수업은 어떤 장소에서 진행되나요?</span>
-                            <span class="faq-icon text-2xl text-green-700 transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="faq-answer px-6 pb-5 text-gray-700">
-                            <p>A. 그룹 수업은 기본적으로 지정하신 장소(학교, 기관, 기업 등)로 강사진이 직접 방문하여 진행됩니다. 따라서 장소는 별도로 확보해 주셔야 하며, 문의 시 희망 프로그램과 함께 **진행 환경**에 대한 정보를 주시면 최적화된 수업 방안을 컨설팅 해 드립니다.</p>
-                        </div>
-                    </div>
-            
-                    <div class="faq-item bg-gray-50 rounded-lg shadow-md">
-                        <button class="faq-question w-full flex justify-between items-center text-left px-6 py-5 focus:outline-none">
-                            <span class="text-lg font-semibold text-green-800">Q. 성향 검사는 정확한가요?</span>
-                            <span class="faq-icon text-2xl text-green-700 transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="faq-answer px-6 pb-5 text-gray-700">
-                            <p>A. IFAS 지문 검사는 선천적 성향과 재능을 객관적으로 분석하는 도구입니다. 이미 많은 데이터가 축적되어 있으며, 특히 한국인을 중심으로 신뢰도 높은 자료가 구축되어 있습니다.<br> <br>이번 프로그램에서는 해당 축적 데이터를 활용해 간단히 성향을 체험하는 방식으로 진행했으나, 더 정확한 분석이 필요할 경우, 지문을 실제로 스캔하여 본사로 보내야만 정밀 검사가 이루어집니다.</p>
-                        </div>
-                    </div>
-            
-                    <div class="faq-item bg-gray-50 rounded-lg shadow-md">
-                        <button class="faq-question w-full flex justify-between items-center text-left px-6 py-5 focus:outline-none">
-                            <span class="text-lg font-semibold text-green-800">Q. 개별 수업의 '수기 관리'는 구체적으로 무엇인가요?</span>
-                            <span class="faq-icon text-2xl text-green-700 transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="faq-answer px-6 pb-5 text-gray-700">
-                            <p>A. 힐링트리의 프로그램은 신체 뿐 아니라 얼굴도 통합하여 진행합니다. 이는 단순한 미용 관리를 넘어, 균형 잡힌 신체 상태를 돕고 얼굴/몸 운동의 효과를 극대화 하는 데 초점을 맞춘 웰니스 관리입니다. 개별 프로그램은 예약제로 진행하고 있습니다.</p>
-                        </div>
-                    </div>
-                    
+                    <h3 class="text-xl font-bold mb-2">건강한 마음 (뿌리)</h3>
+                    <p class="text-sm text-gray-600">나와 주변을 이해하는 내면.<br>선천적 성향 이해와 존중.</p>
                 </div>
-            </div>
-        </section>
-    </main>
 
-    <footer class="bg-gray-800 text-gray-300 py-12">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-2xl font-bold text-white mb-3">주식회사 힐링트리</h3>
-            <p class="mb-2 text-lg">"건강과 힐링의 나침반, 힐링트리"</p>
-            <p class="mb-4">대표: 박준규 (DC, PT) <a href="https://blog.naver.com/allenjoy/120205433765">프로필 보기[클릭] </p>
-            <div class="space-x-4">
-                <span class="font-semibold">[010-2468-4596]</span> /
-                <span class="font-semibold">[drbreezepark@gmail.com]</span> /
-                <a href="https://blog.naver.com/allenjoy" target="_blank" class="font-semibold hover:text-green-400"> https://blog.naver.com/allenjoy</a>
+                <div class="bg-white/90 backdrop-blur text-gray-800 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition duration-300 flex flex-col items-center border-t-4 border-green-600 mt-0 md:mt-20" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-2xl mb-4">
+                        <i class="fa-solid fa-person-walking"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">바른 몸 (줄기)</h3>
+                    <p class="text-sm text-gray-600">척추 건강과 구조적 건강.<br><br>건강한 신체의 중요성을 깨닫고 스스로 자세를 점검하고 관리하는 법을 배웁니다.</p>
+                </div>
+
+                <div class="bg-white/90 backdrop-blur text-gray-800 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition duration-300 flex flex-col items-center border-t-4 border-orange-400" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 text-2xl mb-4">
+                        <i class="fa-regular fa-face-smile"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">밝은 표정 (열매)</h3>
+                    <p class="text-sm text-gray-600">밝은 표정과 건강한 소통.<br><br>얼굴 근육 사용법과 예쁘게 웃는 방법, 그리고 자신감 있는 표정을 만들어 사회성을 향상시킵니다.</p>
+                </div>
             </div>
         </div>
-    </footer>
+    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            // Tab functionality for program schedule
-            const tabs = document.querySelectorAll('.tab-button');
-            const tabContents = document.querySelectorAll('.tab-content');
+    <section id="program" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#4A6C46] mb-4">See - Judge - Act 프로세스</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">총 3교시로 진행되는 체계적인 힐링트리의 그룹 커리큘럼을 확인해보세요.</p>
+            </div>
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = document.getElementById(tab.dataset.tab);
+            <div class="flex justify-center mb-10 gap-4" data-aos="fade-up">
+                <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn px-6 py-3 rounded-full bg-[#4A6C46] text-white font-bold shadow-md transition hover:scale-105">1교시: 마음</button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">2교시: 몸</button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">3교시: 표정</button>
+            </div>
 
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-
-                    tabContents.forEach(tc => tc.classList.remove('active'));
-                    target.classList.add('active');
-                });
-            });
-
-            // FAQ accordion functionality
-            const faqQuestions = document.querySelectorAll('.faq-question');
-
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const answer = question.nextElementSibling;
-                    const icon = question.querySelector('.faq-icon');
-                    
-                    const isActive = answer.classList.contains('active');
-                    
-                    document.querySelectorAll('.faq-answer').forEach(ans => {
-                        ans.classList.remove('active');
-                    });
-                    document.querySelectorAll('.faq-icon').forEach(icn => {
-                        icn.textContent = '▼';
-                        icn.classList.remove('rotate-180');
-                    });
-
-                    if (!isActive) {
-                        answer.classList.add('active');
-                        icon.textContent = '▲'; // Change icon to upward arrow when open
-                        icon.classList.add('rotate-180');
-                    }
-                });
-            });
-
-            // Mobile menu functionality
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Section active link highlighting
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            function updateActiveLink() {
-                let currentSection = '';
-                const scrollY = window.pageYOffset;
-
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 80; 
-                    if (scrollY >= sectionTop) {
-                        currentSection = section.getAttribute('id');
-                    }
-                });
+            <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 min-h-[500px]">
                 
-                // Highlight the last section if scrolled to the bottom
-                if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 80) {
-                    const lastSection = sections[sections.length - 1];
-                    if (lastSection) {
-                        currentSection = lastSection.getAttribute('id');
-                    }
-                }
+                <div id="tab1" class="tab-content active p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-10 items-center">
+                        <div class="md:w-1/2">
+                            <span class="inline-block py-1 px-3 bg-amber-100 text-amber-800 rounded-full text-sm font-bold mb-4">건강한 뿌리</span>
+                            <h3 class="text-3xl font-bold mb-4 text-gray-800">"나는 누구일까?"</h3>
+                            <p class="text-xl text-[#4A6C46] font-medium mb-6">핵심 메시지: "나도 몰랐던 나, 친구도 몰랐던 친구"</p>
+                            <img src="https://breezefeel.github.io/healingtree.github.io/111.avif" alt="마음 수업" class="rounded-xl shadow-lg w-full object-cover h-64">
+                        </div>
+                        <div class="md:w-1/2 w-full">
+                            <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+                                <ul class="space-y-4">
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">00-05분</span> <span>MBTI 아이스 브레이킹</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">05-20분</span> <span>내 성향 예상하기</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">20-30분</span> <span>선천 성향 찾기 & 근거</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">30-40분</span> <span>11가지 성향 그룹 활동</span></li>
+                                    <li class="flex justify-between pb-0"><span class="font-bold text-gray-500">40-45분</span> <span>학교생활 활용법 강의</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentSection}`) {
-                        link.classList.add('active');
-                    }
-                });
+                <div id="tab2" class="tab-content p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-10 items-center">
+                        <div class="md:w-1/2">
+                            <span class="inline-block py-1 px-3 bg-green-100 text-green-800 rounded-full text-sm font-bold mb-4">바른 몸 줄기</span>
+                            <h3 class="text-3xl font-bold mb-4 text-gray-800">"내 몸 바로 세우기"</h3>
+                            <p class="text-xl text-[#4A6C46] font-medium mb-6">핵심 메시지: "지금 습관이 10년 후 내 몸을 결정해요"</p>
+                            <img src="https://breezefeel.github.io/healingtree.github.io/222.avif" alt="자세 교정" class="rounded-xl shadow-lg w-full object-cover h-64">
+                        </div>
+                        <div class="md:w-1/2 w-full">
+                            <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+                                <ul class="space-y-4">
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">00-05분</span> <span>내 자세 인식하기</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">05-10분</span> <span>잘못된 자세의 문제점</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">10-20분</span> <span>짝꿍과 자세 평가</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">20-35분</span> <span>자세 교정 운동 실습</span></li>
+                                    <li class="flex justify-between pb-0"><span class="font-bold text-gray-500">35-45분</span> <span>3분 홈트 루틴 정리</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab3" class="tab-content p-8 md:p-12">
+                    <div class="flex flex-col md:flex-row gap-10 items-center">
+                        <div class="md:w-1/2">
+                            <span class="inline-block py-1 px-3 bg-orange-100 text-orange-800 rounded-full text-sm font-bold mb-4">밝은 표정 열매</span>
+                            <h3 class="text-3xl font-bold mb-4 text-gray-800">"나답게 표현하기"</h3>
+                            <p class="text-xl text-[#4A6C46] font-medium mb-6">핵심 메시지: "건강한 얼굴 습관이 자신감을 만들어요"</p>
+                            <img src="https://breezefeel.github.io/healingtree.github.io/333.jpg" alt="밝은 표정" class="rounded-xl shadow-lg w-full object-cover h-64">
+                        </div>
+                        <div class="md:w-1/2 w-full">
+                            <div class="bg-gray-50 rounded-xl p-6 border border-gray-100">
+                                <ul class="space-y-4">
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">00-05분</span> <span>내 얼굴 인식하기</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">05-15분</span> <span>비대칭 원인 사례 공유</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">15-25분</span> <span>친구와 얼굴 표정 관찰</span></li>
+                                    <li class="flex justify-between border-b pb-2"><span class="font-bold text-gray-500">25-35분</span> <span>스마일 호흡 & 뮤잉운동</span></li>
+                                    <li class="flex justify-between pb-0"><span class="font-bold text-gray-500">35-45분</span> <span>얼굴 스트레칭 & 마무리</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-20 bg-[#F0F4EF]">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-[#4A6C46] mb-12" data-aos="fade-up">생생한 힐링트리 활동 미리보기</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="hover-zoom relative rounded-2xl overflow-hidden shadow-lg aspect-[9/16] group cursor-pointer" data-aos="fade-up" data-aos-delay="0">
+                    <img src="https://breezefeel.github.io/healingtree.github.io/444.JPG" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center">                        
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="font-bold">건강한 뿌리</p>
+                        <p class="text-xs opacity-80">1교시 활동</p>
+                    </div>
+                </div>
+                <div class="hover-zoom relative rounded-2xl overflow-hidden shadow-lg aspect-[9/16] group cursor-pointer" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://breezefeel.github.io/healingtree.github.io/555.jpg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center">                        
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="font-bold">바른 몸 줄기</p>
+                        <p class="text-xs opacity-80">2교시 활동</p>
+                    </div>
+                </div>
+                <div class="hover-zoom relative rounded-2xl overflow-hidden shadow-lg aspect-[9/16] group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://breezefeel.github.io/healingtree.github.io/666.JPG" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center">                      
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="font-bold">밝은 표정 열매</p>
+                        <p class="text-xs opacity-80">3교시 활동</p>
+                    </div>
+                </div>
+                <div class="hover-zoom relative rounded-2xl overflow-hidden shadow-lg aspect-[9/16] group cursor-pointer" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://breezefeel.github.io/healingtree.github.io/IMG_4150.jpg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center">                        
+                    </div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <p class="font-bold">마무리</p>
+                        <p class="text-xs opacity-80">단체 활동</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="outcomes" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8">💡 프로그램 기대 효과</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xl shrink-0"><i class="fa-solid fa-compass"></i></div>
+                            <div>
+                                <h4 class="text-lg font-bold text-[#4A6C46]">내면의 나침반</h4>
+                                <p class="text-gray-600">자신의 선천적 성향을 과학적으로 이해하고 타인의 다양성을 존중합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 text-xl shrink-0"><i class="fa-solid fa-dumbbell"></i></div>
+                            <div>
+                                <h4 class="text-lg font-bold text-[#4A6C46]">성장의 주춧돌</h4>
+                                <p class="text-gray-600">척추 건강의 중요성을 깨닫고, 스스로 몸을 점검하고 교정합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 items-start">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-xl shrink-0"><i class="fa-regular fa-face-grin-stars"></i></div>
+                            <div>
+                                <h4 class="text-lg font-bold text-[#4A6C46]">빛나는 표현력</h4>
+                                <p class="text-gray-600">건강한 얼굴 습관으로 긍정적 자기 효능감을 회복하고 소통 능력을 키웁니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 bg-[#F9F7F2] p-8 rounded-3xl" data-aos="fade-left">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8">🗺️ 사후 실천 로드맵</h2>
+                    <div class="border-l-4 border-[#4A6C46] pl-6 space-y-8">
+                        <div class="relative">
+                            <div class="absolute -left-[34px] top-0 w-4 h-4 bg-[#4A6C46] rounded-full border-4 border-white"></div>
+                            <h4 class="text-lg font-bold text-blue-700">Daily: 매일의 약속</h4>
+                            <p class="text-gray-600">매일 아침 1분 '바른 자세'로 '웃는 얼굴'을 만들며 스스로 칭찬하기.</p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -left-[34px] top-0 w-4 h-4 bg-[#4A6C46] rounded-full border-4 border-white"></div>
+                            <h4 class="text-lg font-bold text-blue-700">Weekly: 주간 점검</h4>
+                            <p class="text-gray-600">가족과 함께 얼굴/자세 정렬 상태 진단하고, 성향 특징으로 대화 나누기.</p>
+                        </div>
+                        <div class="pt-4 flex flex-wrap gap-4">
+                            <a href="https://breezefeel.github.io/happycard/" target="_blank" class="text-sm bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 transition">💖 칭찬 카드 만들기</a>
+                            <a href="https://cafe.naver.com/ifc/171" target="_blank" class="text-sm bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition">✅ 자세 체크하기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="details" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">🤝 맞춤형 '힐링트리' 웰니스 프로그램 운영</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    다양한 학교 및 기관의 환경에 최적화된 유연한 프로그램과 강사진을 제안합니다.
+                </p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8" data-aos="fade-up">
+                
+                <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-t-4 border-[#4A6C46]">
+                    <h3 class="text-2xl font-bold text-[#4A6C46] mb-6">힐링트리 주요 프로그램</h3>
+                    
+                    <div class="space-y-6 text-gray-700">
+                        <div>
+                            <h4 class="font-bold text-[#4A6C46] text-lg border-b border-green-100 pb-2 mb-2">🌱 마음 (성향 기반)</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm md:text-base">
+                                <li><span class="font-bold text-[#4A6C46]">개별:</span> 선천적 성향/재능 검사 및 상담</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 선천적 성향 기반의 그룹 활동</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 그림책 감정 코칭</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-bold text-[#4A6C46] text-lg border-b border-green-100 pb-2 mb-2">🤸 몸 (자세 및 운동)</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm md:text-base">
+                                <li><span class="font-bold text-[#4A6C46]">개별:</span> 자세 교정 운동 / 수동적 P스트레칭</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 셀프 통증 관리를 위한 소도구 운동</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 자세 교정 운동 / 스트레칭</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 부상 방지를 위한 스포츠 테이핑</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-[#4A6C46] text-lg border-b border-green-100 pb-2 mb-2">✨ 얼굴 (뷰티 & 웰니스)</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm md:text-base">
+                                <li><span class="font-bold text-[#4A6C46]">개별:</span> 수기 관리 (바디/페이스)</li>
+                                <li><span class="font-bold text-[#4A6C46]">그룹:</span> 얼굴 운동 클래스</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-8">
+                    <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-t-4 border-pink-400 flex-1">
+                        <h3 class="text-2xl font-bold text-pink-500 mb-4">✅ 개별 수업 안내</h3>
+                        <p class="text-gray-600 mb-6">
+                            지정된 힐링트리 공간으로 내원해주셔야 합니다.<br>
+                            <span class="bg-pink-100 text-pink-600 px-2 py-0.5 rounded text-sm font-bold">※ 현재 서울 목동 / 인천 계양구 예약 필수</span>
+                        </p>
+                        <div class="space-y-3">
+                            <a href="https://brand.site/ifas" target="_blank" class="block w-full text-center bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
+                                🔗 선천적 성향 및 재능 검사
+                            </a>
+                            <a href="https://breezefeel.github.io/p-stretching/" target="_blank" class="block w-full text-center bg-[#4A6C46] hover:bg-[#3A5538] text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
+                                🔗 리:얼 P-스트레칭
+                            </a>
+                            <a href="https://brand.site/ifc/-" target="_blank" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
+                                🔗 리:얼 작은얼굴 만들기
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-t-4 border-blue-500 flex-1">
+                        <h3 class="text-2xl font-bold text-blue-600 mb-4">✅ 그룹 수업 (방문 진행)</h3>
+                        <p class="text-gray-600 mb-4 text-sm">
+                            아래 버튼을 클릭하면 <strong>이메일 주소와 문의 양식</strong>이 복사됩니다.<br>
+                            복사된 내용을 메일에 붙여넣기 해주세요.
+                        </p>
+                        <div class="bg-gray-100 p-4 rounded-lg text-sm text-gray-700 mb-4 font-mono">
+                            1. 희망 프로그램<br>
+                            2. 참여 인원수 및 진행 환경<br>
+                            3. 프로그램에서 얻고자 하는 목표
+                        </div>
+                        
+                        <button onclick="copyToClipboard(this)" class="w-full text-center border-2 border-blue-500 text-blue-600 hover:bg-blue-50 font-bold py-3 px-4 rounded-lg transition duration-200 flex justify-center items-center gap-2">
+                            <span>📧 주소 및 양식 복사하기</span>
+                        </button>
+                        <script>
+                            function copyToClipboard(btnElement) {
+                                // 1. 복사할 텍스트 내용 정의
+                                const textToCopy = `받는 사람: drbreezepark@gmail.com
+
+                        [문의 양식]
+                        1. 희망 프로그램: 
+                        2. 참여 인원수 및 진행 환경: 
+                        3. 프로그램에서 얻고자 하는 목표: `;
+
+                                // 2. 클립보드에 복사
+                                navigator.clipboard.writeText(textToCopy).then(() => {
+                                    
+                                    // 3. 버튼 디자인 변경 (피드백)
+                                    const originalContent = btnElement.innerHTML; // 원래 버튼 내용 저장
+                                    
+                                    btnElement.innerHTML = '✅ 복사되었습니다!';
+                                    btnElement.classList.remove('text-blue-600', 'hover:bg-blue-50', 'border-blue-500');
+                                    btnElement.classList.add('bg-blue-600', 'text-white', 'border-transparent');
+                                    
+                                    // 4. 2초 뒤에 원래대로 복구
+                                    setTimeout(() => {
+                                        btnElement.innerHTML = originalContent;
+                                        btnElement.classList.add('text-blue-600', 'hover:bg-blue-50', 'border-blue-500');
+                                        btnElement.classList.remove('bg-blue-600', 'text-white', 'border-transparent');
+                                    }, 2000);
+
+                                }).catch(err => {
+                                    console.error('복사 실패:', err);
+                                    alert('복사에 실패했습니다. 직접 드래그해서 복사해주세요.');
+                                });
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-white border-t">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">자주 묻는 질문</h2>
+            </div>
+
+            <div class="space-y-4 mb-16" data-aos="fade-up">
+                <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="w-full text-left p-4 bg-gray-50 font-bold text-gray-700 flex justify-between items-center" onclick="toggleFaq(this)">
+                        Q. 왜 세 가지(심리, 몸, 얼굴)를 한꺼번에 하나요?
+                        <i class="fa-solid fa-chevron-down faq-icon text-gray-400"></i>
+                    </button>
+                    <div class="faq-answer bg-white p-4 text-gray-600">
+                        건강은 분리될 수 없습니다. 자세가 나쁘면 자신감이 떨어지고, 스트레스는 몸을 긴장시킵니다. 세 가지는 연결되어 있어 통합적으로 접근해야 효과가 큽니다.
+                    </div>
+                </div>
+                 <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="w-full text-left p-4 bg-gray-50 font-bold text-gray-700 flex justify-between items-center" onclick="toggleFaq(this)">
+                        Q. 그룹 수업은 어디서 진행되나요?
+                        <i class="fa-solid fa-chevron-down faq-icon text-gray-400"></i>
+                    </button>
+                    <div class="faq-answer bg-white p-4 text-gray-600">
+                        기본적으로 학교, 기업 등 지정하신 장소로 강사진이 방문합니다. 문의 시 환경을 알려주시면 최적의 수업 방안을 제안드립니다.
+                    </div>
+                </div>
+                <div class="faq-item border border-gray-200 rounded-lg overflow-hidden">
+                    <button class="w-full text-left p-4 bg-gray-50 font-bold text-gray-700 flex justify-between items-center" onclick="toggleFaq(this)">
+                        Q. 성향 검사는 정확한가요?
+                        <i class="fa-solid fa-chevron-down faq-icon text-gray-400"></i>
+                    </button>
+                    <div class="faq-answer bg-white p-4 text-gray-600">
+                        IFAS 지문 검사는 데이터 기반의 선천적 성향 분석 도구입니다. 프로그램에서는 체험판으로 진행되며, 정밀 검사를 원하실 경우 별도 진행 가능합니다.
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#2C3E50] text-white p-10 rounded-3xl shadow-2xl text-center md:text-left" data-aos="zoom-in">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">주식회사 힐링트리</h3>
+                        <p class="opacity-80 mb-4">"건강과 힐링의 나침반"</p>
+                        <p class="mb-1"><i class="fa-solid fa-user mr-2"></i> 대표: 박준규 (DC, PT)</p>
+                        <p class="mb-1"><i class="fa-solid fa-phone mr-2"></i> 010-2468-4596</p>
+                        <p class="mb-4"><i class="fa-solid fa-envelope mr-2"></i> drbreezepark@gmail.com</p>
+                    </div>
+                    <div class="mt-6 md:mt-0 text-center">
+                        <p class="mb-4">박준규 대표</p>
+                        <a href="https://blog.naver.com/allenjoy/120205433765" class="inline-block bg-white text-[#2C3E50] font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition">프로필 보기</a>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-600 text-sm text-gray-400 text-center">
+                    © 2025 Healing Tree. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animation on Scroll
+        AOS.init({ duration: 1000, once: true });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-[#4A6C46]', 'text-white');
+                el.classList.add('bg-gray-200', 'text-gray-600');
+            });
+
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            const btnId = 'btn-' + tabId;
+            const btn = document.getElementById(btnId);
+            btn.classList.remove('bg-gray-200', 'text-gray-600');
+            btn.classList.add('bg-[#4A6C46]', 'text-white');
+        }
+
+        // FAQ Toggle Logic
+        function toggleFaq(element) {
+            const parent = element.parentElement;
+            parent.classList.toggle('active');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.replace('bg-white/90', 'bg-white');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.replace('bg-white', 'bg-white/90');
             }
-
-            window.addEventListener('scroll', updateActiveLink);
-            updateActiveLink(); 
         });
     </script>
-
 </body>
 </html>
