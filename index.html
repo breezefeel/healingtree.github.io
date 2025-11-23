@@ -542,42 +542,43 @@
         // AOS 초기화
         AOS.init({ duration: 800, once: true, offset: 100 });
 
-		// 탭 전환 로직 (새로운 버튼 디자인 및 색상에 맞춰 수정)
-		    function switchTab(tabId) {
-		        // 색상 상수 정의
-		        const ACTIVE_BG = 'bg-[#4A6C46]';
-		        const ACTIVE_TEXT = 'text-white';
-		        const INACTIVE_BG = 'bg-gray-200';
-		        const INACTIVE_TEXT = 'text-gray-600';
-		        
-		        // 추가 스타일
-		        const SHADOW = 'shadow-md';
-		        const HOVER_SCALE = 'hover:scale-105';
-		        const HOVER_BG_GRAY = 'hover:bg-gray-300';
-		
-		        // 1. 모든 버튼과 콘텐츠를 비활성화 상태로 초기화합니다.
-		        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-		        document.querySelectorAll('.tab-btn').forEach(btn => {
-		            // 활성 스타일 제거
-		            btn.classList.remove(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
-		            // 비활성 스타일 적용
-		            btn.classList.add(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
-		        });
-		
-		        // 2. 클릭된 탭의 버튼을 활성화 상태로 설정합니다.
-		        const activeBtn = document.getElementById('btn-' + tabId);
-		        if (activeBtn) {
-		            // 비활성 스타일 제거
-		            activeBtn.classList.remove(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
-		            // 활성 스타일 적용
-		            activeBtn.classList.add(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
-		        }
-		
-		        // 3. 해당하는 탭 컨텐츠를 표시합니다.
-		        const activeContent = document.getElementById(tabId + '-content'); // ID는 'tab1-content' 등으로 가정
-		        if (activeContent) {
-		            activeContent.style.display = 'block';
-		        }
+		// 탭 전환 로직 (사용자님의 HTML ID에 맞춰 수정)
+			function switchTab(tabId) {
+			    // 색상 상수 정의
+			    const ACTIVE_BG = 'bg-[#4A6C46]';
+			    const ACTIVE_TEXT = 'text-white';
+			    const INACTIVE_BG = 'bg-gray-200';
+			    const INACTIVE_TEXT = 'text-gray-600';
+			    
+			    // 추가 스타일
+			    const SHADOW = 'shadow-md';
+			    const HOVER_SCALE = 'hover:scale-105';
+			    const HOVER_BG_GRAY = 'hover:bg-gray-300';
+			
+			    // 1. 모든 버튼과 콘텐츠를 비활성화 상태로 초기화합니다.
+			    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+			    document.querySelectorAll('.tab-btn').forEach(btn => {
+			        // 활성 스타일 제거
+			        btn.classList.remove(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
+			        // 비활성 스타일 적용
+			        btn.classList.add(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
+			    });
+			
+			    // 2. 클릭된 탭의 버튼을 활성화 상태로 설정합니다.
+			    const activeBtn = document.getElementById('btn-' + tabId);
+			    if (activeBtn) {
+			        // 비활성 스타일 제거
+			        activeBtn.classList.remove(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
+			        // 활성 스타일 적용
+			        activeBtn.classList.add(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
+			    }
+			
+			    // 3. 해당하는 탭 컨텐츠를 표시합니다. (수정된 부분: -content 제거)
+			    const activeContent = document.getElementById(tabId); // <-- 여기를 수정했습니다.
+			    if (activeContent) {
+			        activeContent.style.display = 'block';
+			    }
+			}
 		        
 		        // 4. 스크롤 위치 보정 (선택 사항: AOS가 재작동하도록)
 		        // AOS.refresh(); 
@@ -585,12 +586,11 @@
 		
 		    // 탭 전환 로직이 로드된 후, 기본 탭('tab1')을 활성화합니다.
 		    document.addEventListener('DOMContentLoaded', function() {
-		        // AOS 초기화 (기존 코드)
-		        AOS.init({ duration: 800, once: true, offset: 100 });
-		        
-		        // 페이지 로드 시 'tab1'을 활성화 (switchTab 함수를 직접 호출)
-		        switchTab('tab1'); 
-		    });
+			    // ... (기존 AOS.init, switchPage 등의 코드)
+			
+			    // 페이지 로드 시 'tab1'을 활성화하여 보이게 합니다.
+			    switchTab('tab1'); 
+			});
 
         // FAQ 토글 로직
         function toggleFaq(element) {
