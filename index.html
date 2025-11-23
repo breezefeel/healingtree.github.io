@@ -170,11 +170,22 @@
             </div>
 
             <div class="flex justify-center mb-10 gap-4" data-aos="fade-up">
-                <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn px-6 py-3 rounded-full bg-[#4A6C46] text-white font-bold shadow-md transition hover:scale-105">1교시: 마음</button>
-                <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">2교시: 몸</button>
-                <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">3교시: 표정</button>
-            </div>
-
+			    <button onclick="switchTab('tab1')" id="btn-tab1" 
+			        class="tab-btn active px-6 py-3 rounded-full bg-[#4A6C46] text-white font-bold shadow-md transition hover:scale-105">
+			        1교시: 마음
+			    </button>
+			    
+			    <button onclick="switchTab('tab2')" id="btn-tab2" 
+			        class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">
+			        2교시: 몸
+			    </button>
+			    
+			    <button onclick="switchTab('tab3')" id="btn-tab3" 
+			        class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold transition hover:bg-gray-300">
+			        3교시: 표정
+			    </button>
+			</div>
+			
             <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 min-h-[500px]">
                 
                 <div id="tab1" class="tab-content active p-8 md:p-12">
@@ -531,21 +542,55 @@
         // AOS 초기화
         AOS.init({ duration: 800, once: true, offset: 100 });
 
-        // 탭 전환 로직
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => {
-                el.classList.remove('text-gray-900', 'border-[#3A5A40]', 'font-bold');
-                el.classList.add('text-gray-400', 'font-medium');
-                el.style.borderColor = 'transparent';
-            });
-
-            document.getElementById(tabId).classList.add('active');
-            const btn = document.getElementById('btn-' + tabId);
-            btn.classList.remove('text-gray-400', 'font-medium');
-            btn.classList.add('text-gray-900', 'border-[#3A5A40]', 'font-bold');
-            btn.style.borderBottomWidth = '2px';
-        }
+		// 탭 전환 로직 (새로운 버튼 디자인 및 색상에 맞춰 수정)
+		    function switchTab(tabId) {
+		        // 색상 상수 정의
+		        const ACTIVE_BG = 'bg-[#4A6C46]';
+		        const ACTIVE_TEXT = 'text-white';
+		        const INACTIVE_BG = 'bg-gray-200';
+		        const INACTIVE_TEXT = 'text-gray-600';
+		        
+		        // 추가 스타일
+		        const SHADOW = 'shadow-md';
+		        const HOVER_SCALE = 'hover:scale-105';
+		        const HOVER_BG_GRAY = 'hover:bg-gray-300';
+		
+		        // 1. 모든 버튼과 콘텐츠를 비활성화 상태로 초기화합니다.
+		        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+		        document.querySelectorAll('.tab-btn').forEach(btn => {
+		            // 활성 스타일 제거
+		            btn.classList.remove(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
+		            // 비활성 스타일 적용
+		            btn.classList.add(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
+		        });
+		
+		        // 2. 클릭된 탭의 버튼을 활성화 상태로 설정합니다.
+		        const activeBtn = document.getElementById('btn-' + tabId);
+		        if (activeBtn) {
+		            // 비활성 스타일 제거
+		            activeBtn.classList.remove(INACTIVE_BG, INACTIVE_TEXT, HOVER_BG_GRAY);
+		            // 활성 스타일 적용
+		            activeBtn.classList.add(ACTIVE_BG, ACTIVE_TEXT, SHADOW, HOVER_SCALE);
+		        }
+		
+		        // 3. 해당하는 탭 컨텐츠를 표시합니다.
+		        const activeContent = document.getElementById(tabId + '-content'); // ID는 'tab1-content' 등으로 가정
+		        if (activeContent) {
+		            activeContent.style.display = 'block';
+		        }
+		        
+		        // 4. 스크롤 위치 보정 (선택 사항: AOS가 재작동하도록)
+		        // AOS.refresh(); 
+		    }
+		
+		    // 탭 전환 로직이 로드된 후, 기본 탭('tab1')을 활성화합니다.
+		    document.addEventListener('DOMContentLoaded', function() {
+		        // AOS 초기화 (기존 코드)
+		        AOS.init({ duration: 800, once: true, offset: 100 });
+		        
+		        // 페이지 로드 시 'tab1'을 활성화 (switchTab 함수를 직접 호출)
+		        switchTab('tab1'); 
+		    });
 
         // FAQ 토글 로직
         function toggleFaq(element) {
