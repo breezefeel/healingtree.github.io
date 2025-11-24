@@ -590,16 +590,15 @@
 	
 	    // 클립보드 복사 로직 (기존 코드 유지)
 	    function copyToClipboard(btnElement) {
-	        const textToCopy = `받는 사람: drbreezepark@gmail.com
-	
-	[문의 양식]
+	        const textToCopy = `[문의 양식]
+			
 	1. 희망 프로그램: 
 	2. 참여 인원수 및 진행 환경: 
 	3. 프로그램에서 얻고자 하는 목표: `;
 	
 	        navigator.clipboard.writeText(textToCopy).then(() => {
 	            const originalContent = btnElement.innerHTML;
-	            btnElement.innerHTML = '✅ 복사 완료';
+	            btnElement.innerHTML = '✅ 복사 완료 / 문의 시 붙여넣기 하세요';
 	            btnElement.classList.add('bg-gray-900', 'text-white', 'border-gray-900');
 	            btnElement.classList.remove('text-gray-700', 'border-gray-300');
 	            
