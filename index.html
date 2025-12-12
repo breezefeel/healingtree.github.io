@@ -24,6 +24,11 @@
             color: #333;
         }
         
+        /* 스크롤 시 네비게이션바 높이만큼 오프셋 추가 */
+        section[id], div[id] {
+            scroll-margin-top: 100px;
+        }
+        
         /* 탭 전환 애니메이션 */
         .tab-content { display: none; animation: fadeIn 0.5s; }
         .tab-content.active { display: block; }
@@ -44,17 +49,29 @@
 
     <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-[#4A6C46] flex items-center gap-2">
+            <!-- 로고 -->
+            <a href="#" class="text-2xl font-bold text-[#4A6C46] flex items-center">
                 <img src="https://breezefeel.github.io/healingtree.github.io/힐링트리 로고그림.png" alt="힐링트리 로고" 
-                    style="display:inline; height:1.5em; vertical-align:middle;"> 힐링트리
+                    style="display:inline; height:2em;">
             </a>
+            
+            <!-- 데스크톱 메뉴 (5개) -->
             <div class="hidden md:flex space-x-8 font-medium text-gray-600">
                 <a href="#home" class="hover:text-[#4A6C46] transition">핵심 가치</a>
-                <a href="#program" class="hover:text-[#4A6C46] transition">커리큘럼</a>
-                <a href="#details" class="hover:text-[#4A6C46] transition">프로그램 안내</a>
+                <a href="#self-check" class="hover:text-[#4A6C46] transition">힐링 프로그램</a>
+                <a href="#expert" class="hover:text-[#4A6C46] transition">전문가 과정</a>
                 <a href="#faq" class="hover:text-[#4A6C46] transition">자주 묻는 질문</a>
             </div>
-            <a href="http://pf.kakao.com/_nVSxdn/chat" class="bg-[#4A6C46] text-white px-6 py-2 rounded-full hover:bg-[#3A5538] transition shadow-lg">문의 하기</a>
+            
+            <!-- 데스크톱 문의하기 버튼 -->
+            <a href="http://pf.kakao.com/_nVSxdn/chat" class="hidden md:block bg-[#4A6C46] text-white px-6 py-2 rounded-full hover:bg-[#3A5538] transition shadow-lg">문의 하기</a>
+            
+            <!-- 모바일 메뉴 (4개 - 햄버거 없이 가로 나열) -->
+            <div class="md:hidden flex items-center space-x-3 text-sm font-medium text-gray-600">
+                <a href="#self-check" class="hover:text-[#4A6C46] transition whitespace-nowrap">힐링 프로그램</a>
+                <a href="#expert" class="hover:text-[#4A6C46] transition whitespace-nowrap">전문가 과정</a>
+                <a href="http://pf.kakao.com/_nVSxdn/chat" class="bg-[#4A6C46] text-white px-4 py-2 rounded-full hover:bg-[#3A5538] transition whitespace-nowrap">문의 하기</a>
+            </div>
         </div>
     </nav>
 
@@ -420,7 +437,7 @@
                     </button>
                 </div>
 
-                <div class="bg-white p-10 shadow-sm border border-gray-100 flex flex-col h-full hover:border-[#3A5A40] transition duration-300">
+                <div id="expert" class="bg-white p-10 shadow-sm border border-gray-100 flex flex-col h-full hover:border-[#3A5A40] transition duration-300">
                     <div class="mb-6">
                         <h4 class="text-lg font-bold text-gray-900">전문가 양성 과정</h4>
                         <p class="text-sm text-gray-500 mt-2">체계적인 전문 교육</p>
@@ -614,7 +631,6 @@
 	        AOS.init({ duration: 800, once: true, offset: 100 });
 	        
 	        // 페이지 로드 시 'tab1'을 활성화하여 보이게 합니다.
-	        // 이 코드가 DOM 로드 후에 실행되므로 안전하게 첫 탭만 표시됩니다.
 	        switchTab('tab1'); 
 	    });
 	</script>
