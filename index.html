@@ -68,25 +68,39 @@
 
         /*
          * 메인 히어로 미세 조정 (힐링트리 홈페이지.html)
+         * ─ hero-nav-offset     : 상단 고정 메뉴 높이 (배경 시작 위치)
          * ─ hero-bg-pos-x/y     : 배경 이미지 초점 (%, 클수록 해당 방향으로 이동)
          * ─ hero-bg-scale       : 배경 확대 (1 = 100%)
          * ─ hero-text-pt-*      : 왼쪽 글 블록 위 여백 (vh/rem)
+         * ─ hero-cards-mt       : 카드와 본문 사이 간격
+         * ─ hero-cards-offset-y : 카드 세로 위치 (음수 = 위로)
          * ─ hero-cards-pb       : 카드 하단 여백
          */
         #home {
+            --hero-nav-offset: 5rem;
             --hero-bg-pos-x: 72%;
-            --hero-bg-pos-y: 46%;
+            --hero-bg-pos-y: 65%;
             --hero-bg-pos-x-mobile: 86%;
-            --hero-bg-pos-y-mobile: 40%;
+            --hero-bg-pos-y-mobile: 70%;
             --hero-bg-scale: 1;
             --hero-bg-scale-mobile: 1.1;
-            --hero-text-pt: 0.5rem;
+            --hero-text-pt: 7rem;
             --hero-text-pt-sm: 1rem;
             --hero-text-pt-md: 22vh;
             --hero-text-pt-lg: 24vh;
             --hero-text-pt-xl: 26vh;
+            --hero-cards-mt: 1.75rem;
+            --hero-cards-mt-md: 2.5rem;
+            --hero-cards-offset-y: 7rem;
+            --hero-cards-offset-y-md: 5rem;
             --hero-cards-pb: 1.25rem;
             --hero-cards-pb-md: 1.75rem;
+        }
+        #home .hero-bg-wrap {
+            top: var(--hero-nav-offset);
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
         #home .hero-bg-img {
             object-position: var(--hero-bg-pos-x-mobile) var(--hero-bg-pos-y-mobile);
@@ -114,10 +128,139 @@
             #home .hero-copy { padding-top: var(--hero-text-pt-xl); }
         }
         #home .hero-cards {
+            margin-top: var(--hero-cards-mt);
+            transform: translateY(var(--hero-cards-offset-y));
             padding-bottom: var(--hero-cards-pb);
         }
         @media (min-width: 768px) {
-            #home .hero-cards { padding-bottom: var(--hero-cards-pb-md); }
+            #home .hero-cards {
+                margin-top: var(--hero-cards-mt-md);
+                transform: translateY(var(--hero-cards-offset-y-md));
+                padding-bottom: var(--hero-cards-pb-md);
+            }
+        }
+        #home .hero-card {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            padding: 1.5rem 1.5rem 1.625rem;
+            border-radius: 1.5rem;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.78) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow:
+                0 4px 6px -1px rgba(74, 108, 70, 0.05),
+                0 16px 32px -12px rgba(44, 62, 80, 0.12);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        #home .hero-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 3px;
+            opacity: 0.95;
+        }
+        #home .hero-card::after {
+            content: "";
+            position: absolute;
+            top: -3rem;
+            right: -3rem;
+            width: 7rem;
+            height: 7rem;
+            border-radius: 9999px;
+            opacity: 0.14;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+        #home .hero-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 8px 12px -2px rgba(74, 108, 70, 0.08),
+                0 24px 48px -16px rgba(44, 62, 80, 0.18);
+        }
+        #home .hero-card:hover::after {
+            transform: scale(1.12);
+            opacity: 0.22;
+        }
+        #home .hero-card--mind::before { background: linear-gradient(90deg, #9333ea, #c084fc); }
+        #home .hero-card--mind::after { background: radial-gradient(circle, #9333ea 0%, transparent 70%); }
+        #home .hero-card--body::before { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+        #home .hero-card--body::after { background: radial-gradient(circle, #2563eb 0%, transparent 70%); }
+        #home .hero-card--face::before { background: linear-gradient(90deg, #ea580c, #fb923c); }
+        #home .hero-card--face::after { background: radial-gradient(circle, #ea580c 0%, transparent 70%); }
+        #home .hero-card__icon {
+            position: relative;
+            z-index: 1;
+            width: 3.25rem;
+            height: 3.25rem;
+            margin-bottom: 1.125rem;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+        }
+        #home .hero-card--mind .hero-card__icon {
+            color: #7e22ce;
+            background: linear-gradient(135deg, #f3e8ff 0%, #ede9fe 100%);
+            box-shadow: 0 8px 20px -8px rgba(147, 51, 234, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        #home .hero-card--body .hero-card__icon {
+            color: #1d4ed8;
+            background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+            box-shadow: 0 8px 20px -8px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        #home .hero-card--face .hero-card__icon {
+            color: #c2410c;
+            background: linear-gradient(135deg, #ffedd5 0%, #fff7ed 100%);
+            box-shadow: 0 8px 20px -8px rgba(234, 88, 12, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+        #home .hero-card__label {
+            position: relative;
+            z-index: 1;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        #home .hero-card--mind .hero-card__label { color: #9333ea; }
+        #home .hero-card--body .hero-card__label { color: #2563eb; }
+        #home .hero-card--face .hero-card__label { color: #ea580c; }
+        #home .hero-card__title {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0.625rem;
+            font-size: 1.125rem;
+            line-height: 1.35;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        @media (min-width: 768px) {
+            #home .hero-card {
+                padding: 1.75rem 1.75rem 1.875rem;
+            }
+            #home .hero-card__title {
+                font-size: 1.25rem;
+            }
+        }
+        #home .hero-card__desc {
+            position: relative;
+            z-index: 1;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: #64748b;
+        }
+        @media (min-width: 768px) {
+            #home .hero-card__desc {
+                font-size: 0.9375rem;
+            }
         }
 
     </style>
@@ -159,14 +302,14 @@
     <div id="page-main" class="page-section">
         
         <section id="home" class="relative min-h-screen flex flex-col pt-20 overflow-hidden bg-[#F9F7F2]">
-            <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="hero-bg-wrap absolute z-0 overflow-hidden">
                 <img src="https://breezefeel.github.io/healingtree.github.io/%EB%A9%94%EC%9D%B8%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="힐링트리 메인 배경" class="hero-bg-img w-full h-full object-cover origin-center" width="1920" height="1080" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/55 to-white/10 md:from-white/80 md:via-white/35 md:to-transparent"></div>
                 <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#F9F7F2] pointer-events-none"></div>
             </div>
 
-            <div class="relative z-10 flex flex-col flex-1 w-full max-w-7xl mx-auto px-5 sm:px-6 min-h-[calc(100dvh-5rem)]">
-                <div class="hero-copy flex flex-col flex-1 min-h-0 justify-start">
+            <div class="relative z-10 flex flex-col w-full max-w-7xl mx-auto px-5 sm:px-6 min-h-[calc(100dvh-5rem)]">
+                <div class="hero-copy flex flex-col justify-start">
                     <div class="max-w-4xl xl:max-w-5xl text-left" data-aos="fade-right">
                         <p class="text-base md:text-lg lg:text-xl font-bold tracking-[0.18em] mb-4 md:mb-6">
                             <span class="text-purple-600">Mind</span><span class="text-slate-500"> · </span><span class="text-blue-600">Body</span><span class="text-slate-500"> · </span><span class="text-orange-600">Face</span><span class="text-slate-700"> 밸런스</span>
@@ -181,22 +324,25 @@
                     </div>
                 </div>
 
-                <div class="hero-cards relative z-20 shrink-0 mt-auto grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto w-full items-stretch">
-                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-purple-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="80">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-3xl mb-5"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
-                        <h3 class="text-lg md:text-xl font-bold mb-3">Mind (건강한 뿌리)</h3>
-                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">나와 타인을 이해하는 내면의 힘. 심리적 안정과 회복을 통해 건강한 삶의 토대를 만듭니다.</p>
-                    </div>
-                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-blue-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="160">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-3xl mb-5"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></div>
-                        <h3 class="text-lg md:text-xl font-bold mb-3">Body (튼튼한 줄기)</h3>
-                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">올바른 자세와 생활 습관으로 몸의 중심을 세웁니다. 바른 움직임이 건강한 삶의 에너지가 됩니다.</p>
-                    </div>
-                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-orange-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="240">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-3xl mb-5"><i class="fa-regular fa-face-smile" aria-hidden="true"></i></div>
-                        <h3 class="text-lg md:text-xl font-bold mb-3">Face (생기 있는 열매)</h3>
-                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">내면의 균형이 외면의 빛으로 피어납니다. 자신감 있는 표정과 건강한 인상으로 당신의 가치를 완성합니다.</p>
-                    </div>
+                <div class="hero-cards relative z-20 shrink-0 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 max-w-6xl mx-auto w-full items-stretch">
+                    <article class="hero-card hero-card--mind" data-aos="fade-up" data-aos-delay="80">
+                        <div class="hero-card__icon"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
+                        <span class="hero-card__label">Mind</span>
+                        <h3 class="hero-card__title serif">건강한 뿌리</h3>
+                        <p class="hero-card__desc">나와 타인을 이해하는 내면의 힘. 심리적 안정과 회복을 통해 건강한 삶의 토대를 만듭니다.</p>
+                    </article>
+                    <article class="hero-card hero-card--body" data-aos="fade-up" data-aos-delay="160">
+                        <div class="hero-card__icon"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></div>
+                        <span class="hero-card__label">Body</span>
+                        <h3 class="hero-card__title serif">튼튼한 줄기</h3>
+                        <p class="hero-card__desc">올바른 자세와 생활 습관으로 몸의 중심을 세웁니다. 바른 움직임이 건강한 삶의 에너지가 됩니다.</p>
+                    </article>
+                    <article class="hero-card hero-card--face" data-aos="fade-up" data-aos-delay="240">
+                        <div class="hero-card__icon"><i class="fa-regular fa-face-smile" aria-hidden="true"></i></div>
+                        <span class="hero-card__label">Face</span>
+                        <h3 class="hero-card__title serif">생기 있는 열매</h3>
+                        <p class="hero-card__desc">내면의 균형이 외면의 빛으로 피어납니다. 자신감 있는 표정과 건강한 인상으로 당신의 가치를 완성합니다.</p>
+                    </article>
                 </div>
             </div>
         </section>
@@ -209,8 +355,8 @@
                 </div>
                 <div class="flex justify-center mb-10 gap-4" data-aos="fade-up">
                     <button onclick="switchTab('tab1')" id="btn-tab1" class="tab-btn active px-6 py-3 rounded-full bg-[#4A6C46] text-white font-bold shadow-md hover:scale-105 transition">1교시: 마음</button>
-                    <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold hover:bg-gray-300 transition">2교시: 몸</button>
-                    <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold hover:bg-gray-300 transition">3교시: 표정</button>
+                    <button onclick="switchTab('tab2')" id="btn-tab2" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold hover:bg-gray-300 transition">2교시: 바디</button>
+                    <button onclick="switchTab('tab3')" id="btn-tab3" class="tab-btn px-6 py-3 rounded-full bg-gray-200 text-gray-600 font-bold hover:bg-gray-300 transition">3교시: 페이스</button>
                 </div>
                 <div class="max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 min-h-[500px]">
                     <div id="tab1" class="tab-content active p-8 md:p-12">
@@ -380,14 +526,11 @@
                         <ul class="space-y-3 text-sm text-gray-600 flex-grow mb-8">
                             <li>• 도수치료(목동)</li>
                             <li>• Re:Al 인사이드 성향/재능 검사</li>                    
-                            <li>• Re:Al P-스트레칭(목동/인천 계양)</li>
-                            <li>• Re:Al 작은얼굴(목동/인천 계양)</li>                    
-                        </ul>
-                        <div class="space-y-2">
-                            <a href="https://breezefeel.github.io/NHT/#page-story" class="block w-full py-3 text-center bg-[#4A6C46] text-white font-bold text-sm hover:bg-[#3A5538] transition shadow-md rounded-lg">
-                                더 많은 프로그램 보기<i class="fa-solid fa-arrow-right ml-1"></i>
-                            </a>                            
-                        </div> 
+                            <li>• Re:Al P-스트레칭(목동/약수/인천 계양)</li>
+                            <li>• Re:Al 자세 교정(목동/약수/인천 계양)</li>
+                            <li>• Re:Al 기능 운동(목동/약수/인천 계양)</li>
+                            <li>• Re:Al 작은얼굴(목동/약수/인천 계양)</li>                    
+                        </ul>                        
                     </div>
 
                     <div class="bg-white p-10 shadow-sm border border-gray-100 flex flex-col h-full hover:border-[#3A5A40] transition duration-300">
@@ -912,7 +1055,7 @@
                             <div class="w-20 h-20 bg-green-500 rounded-2xl flex items-center justify-center text-white text-3xl flex-shrink-0"><i class="fa-solid fa-person-walking"></i></div>
                             <div class="flex-grow">
                                 <div class="flex items-center gap-3 mb-3 flex-wrap">
-                                    <h3 class="text-2xl font-bold text-gray-900">P-스트레칭 전문가 과정</h3>
+                                    <h3 class="text-2xl font-bold text-gray-900">Re:Al Movement 전문가 과정</h3>
                                     <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">WELLNESS</span>
                                 </div>
                                 <p class="text-gray-600 mb-4 break-words">자세 교정 및 통증 관리를 위한 셀프 케어 지도자 과정</p>
