@@ -65,6 +65,61 @@
 
         /* 숨김 클래스 */
         .hidden-page { display: none !important; }
+
+        /*
+         * 메인 히어로 미세 조정 (힐링트리 홈페이지.html)
+         * ─ hero-bg-pos-x/y     : 배경 이미지 초점 (%, 클수록 해당 방향으로 이동)
+         * ─ hero-bg-scale       : 배경 확대 (1 = 100%)
+         * ─ hero-text-pt-*      : 왼쪽 글 블록 위 여백 (vh/rem)
+         * ─ hero-cards-pb       : 카드 하단 여백
+         */
+        #home {
+            --hero-bg-pos-x: 72%;
+            --hero-bg-pos-y: 46%;
+            --hero-bg-pos-x-mobile: 86%;
+            --hero-bg-pos-y-mobile: 40%;
+            --hero-bg-scale: 1;
+            --hero-bg-scale-mobile: 1.1;
+            --hero-text-pt: 0.5rem;
+            --hero-text-pt-sm: 1rem;
+            --hero-text-pt-md: 22vh;
+            --hero-text-pt-lg: 24vh;
+            --hero-text-pt-xl: 26vh;
+            --hero-cards-pb: 1.25rem;
+            --hero-cards-pb-md: 1.75rem;
+        }
+        #home .hero-bg-img {
+            object-position: var(--hero-bg-pos-x-mobile) var(--hero-bg-pos-y-mobile);
+            transform: scale(var(--hero-bg-scale-mobile));
+        }
+        @media (min-width: 768px) {
+            #home .hero-bg-img {
+                object-position: var(--hero-bg-pos-x) var(--hero-bg-pos-y);
+                transform: scale(var(--hero-bg-scale));
+            }
+        }
+        #home .hero-copy {
+            padding-top: var(--hero-text-pt);
+        }
+        @media (min-width: 640px) {
+            #home .hero-copy { padding-top: var(--hero-text-pt-sm); }
+        }
+        @media (min-width: 768px) {
+            #home .hero-copy { padding-top: var(--hero-text-pt-md); }
+        }
+        @media (min-width: 1024px) {
+            #home .hero-copy { padding-top: var(--hero-text-pt-lg); }
+        }
+        @media (min-width: 1280px) {
+            #home .hero-copy { padding-top: var(--hero-text-pt-xl); }
+        }
+        #home .hero-cards {
+            padding-bottom: var(--hero-cards-pb);
+        }
+        @media (min-width: 768px) {
+            #home .hero-cards { padding-bottom: var(--hero-cards-pb-md); }
+        }
+
     </style>
 </head>
 <body class="bg-[#F9F7F2] text-[#2C3E50]">
@@ -78,7 +133,7 @@
             <div class="hidden md:flex space-x-8 font-medium text-gray-600 items-center">
                 <div id="nav-main-links" class="flex space-x-8 items-center">                    
                     <a href="#self-check" class="hover:text-[#4A6C46] transition">힐링 프로그램</a>                    
-                    <button onclick="showPage('expert')" class="hover:text-[#4A6C46] transition font-bold text-[#4A6C46]">전문가 과정</button>
+                    <button onclick="showPage('expert')" type="button" class="hover:text-[#4A6C46] transition">전문가 과정</button>
                     <a href="#faq" class="hover:text-[#4A6C46] transition">FAQ</a>
                 </div>
                 
@@ -103,38 +158,44 @@
 
     <div id="page-main" class="page-section">
         
-        <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-            <div class="absolute inset-0 z-0">
-                <img src="https://breezefeel.github.io/healingtree.github.io/메인 이미지.avif" alt="Background" class="w-full h-full object-cover opacity-90 brightness-75">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F9F7F2]"></div>
+        <section id="home" class="relative min-h-screen flex flex-col pt-20 overflow-hidden bg-[#F9F7F2]">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <img src="https://breezefeel.github.io/healingtree.github.io/%EB%A9%94%EC%9D%B8%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="힐링트리 메인 배경" class="hero-bg-img w-full h-full object-cover origin-center" width="1920" height="1080" decoding="async">
+                <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/55 to-white/10 md:from-white/80 md:via-white/35 md:to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-[#F9F7F2] pointer-events-none"></div>
             </div>
-            <div class="container mx-auto px-6 relative z-10 text-center text-white mt-10">
-                <div class="inline-block bg-black/40 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-2xl" data-aos="fade-up">
-                    <p class="text-lg md:text-xl mb-4 tracking-widest font-bold uppercase">
-                        <span class="text-purple-300 drop-shadow-md">Mind</span> · 
-                        <span class="text-blue-300 drop-shadow-md">Body</span> · 
-                        <span class="text-orange-300 drop-shadow-md">Face</span> 
-                        <span class="text-gray-200">밸런스</span>
-                    </p>
-                    <h1 class="text-4xl md:text-6xl font-bold leading-tight text-white drop-shadow-lg">
-                        진정한 건강은<br><span class="text-amber-300 font-extrabold">균형</span>에서 시작됩니다.
-                    </h1>
+
+            <div class="relative z-10 flex flex-col flex-1 w-full max-w-7xl mx-auto px-5 sm:px-6 min-h-[calc(100dvh-5rem)]">
+                <div class="hero-copy flex flex-col flex-1 min-h-0 justify-start">
+                    <div class="max-w-4xl xl:max-w-5xl text-left" data-aos="fade-right">
+                        <p class="text-base md:text-lg lg:text-xl font-bold tracking-[0.18em] mb-4 md:mb-6">
+                            <span class="text-purple-600">Mind</span><span class="text-slate-500"> · </span><span class="text-blue-600">Body</span><span class="text-slate-500"> · </span><span class="text-orange-600">Face</span><span class="text-slate-700"> 밸런스</span>
+                        </p>
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[4.75rem] 2xl:text-[5.25rem] font-bold leading-[1.12] text-slate-800 serif mb-5 md:mb-7">
+                            진정한 건강은<br><span class="text-[#4A6C46]">균형</span>에서 시작됩니다.
+                        </h1>
+                        <p class="text-slate-600 text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl">
+                            뿌리 깊은 마음의 안정, 튼튼한 몸의 균형, 생기 있는 얼굴의 빛.<br class="hidden sm:block">
+                            힐링트리는 당신의 건강한 변화를 함께합니다.
+                        </p>
+                    </div>
                 </div>
-                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">                
-                    <div class="bg-white/90 backdrop-blur text-gray-800 p-8 rounded-2xl shadow-xl transform transition duration-300 hover:-translate-y-2 md:translate-y-12 flex flex-col items-center border-t-4 border-orange-300" data-aos="fade-up" data-aos-delay="300">
-                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 text-3xl mb-6"><i class="fa-solid fa-brain"></i></div>
-                        <h3 class="text-xl font-bold mb-3">Face (밝은 열매)</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed text-center">자신감 있는 소통의 시작.<br>건강한 얼굴 근육 사용법으로<br>긍정적인 인상을 만듭니다.</p>
+
+                <div class="hero-cards relative z-20 shrink-0 mt-auto grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto w-full items-stretch">
+                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-purple-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="80">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 text-3xl mb-5"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold mb-3">Mind (건강한 뿌리)</h3>
+                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">나와 타인을 이해하는 내면의 힘. 심리적 안정과 회복을 통해 건강한 삶의 토대를 만듭니다.</p>
                     </div>
-                    <div class="bg-white/90 backdrop-blur text-gray-800 p-8 rounded-2xl shadow-xl transform transition duration-300 hover:-translate-y-2 md:translate-y-6 flex flex-col items-center border-t-4 border-blue-300" data-aos="fade-up" data-aos-delay="200">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 text-3xl mb-6"><i class="fa-solid fa-person-walking"></i></div>
-                        <h3 class="text-xl font-bold mb-3">Body (바른 줄기)</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed text-center">삶을 지탱하는 바른 자세.<br>구조적 건강을 회복하고<br>스스로 관리하는 법을 배웁니다.</p>
+                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-blue-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="160">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-3xl mb-5"><i class="fa-solid fa-person-walking" aria-hidden="true"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold mb-3">Body (튼튼한 줄기)</h3>
+                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">올바른 자세와 생활 습관으로 몸의 중심을 세웁니다. 바른 움직임이 건강한 삶의 에너지가 됩니다.</p>
                     </div>
-                    <div class="bg-white/90 backdrop-blur text-gray-800 p-8 rounded-2xl shadow-xl transform transition duration-300 hover:-translate-y-2 flex flex-col items-center border-t-4 border-purple-300" data-aos="fade-up" data-aos-delay="100">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 text-3xl mb-6"><i class="fa-regular fa-face-smile"></i></div>
-                        <h3 class="text-xl font-bold mb-3">Mind (건강한 뿌리)</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed text-center">나와 타인을 이해하는 내면의 힘.<br>선천적 성향 분석을 통해<br>건강한 자아를 확립합니다.</p>
+                    <div class="bg-white/80 backdrop-blur-md text-gray-800 p-7 md:p-8 rounded-2xl shadow-lg border border-white/60 flex flex-col items-center text-center border-t-4 border-orange-400 transition duration-300 hover:-translate-y-1 hover:shadow-xl" data-aos="fade-up" data-aos-delay="240">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-3xl mb-5"><i class="fa-regular fa-face-smile" aria-hidden="true"></i></div>
+                        <h3 class="text-lg md:text-xl font-bold mb-3">Face (생기 있는 열매)</h3>
+                        <p class="text-sm md:text-[0.9375rem] text-gray-600 leading-relaxed">내면의 균형이 외면의 빛으로 피어납니다. 자신감 있는 표정과 건강한 인상으로 당신의 가치를 완성합니다.</p>
                     </div>
                 </div>
             </div>
