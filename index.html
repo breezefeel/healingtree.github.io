@@ -128,8 +128,7 @@
             #home .hero-copy { padding-top: var(--hero-text-pt-xl); }
         }
         #home .hero-cards {
-            margin-top: var(--hero-cards-mt);
-            transform: translateY(var(--hero-cards-offset-y));
+            margin-top: calc(var(--hero-cards-mt) + var(--hero-cards-offset-y));
             padding-bottom: var(--hero-cards-pb);
         }
         @media (min-width: 768px) {
@@ -301,7 +300,7 @@
 
     <div id="page-main" class="page-section">
         
-        <section id="home" class="relative min-h-screen flex flex-col pt-20 overflow-hidden bg-[#F9F7F2]">
+        <section id="home" class="relative min-h-screen flex flex-col pt-20 overflow-x-hidden bg-[#F9F7F2]">
             <div class="hero-bg-wrap absolute z-0 overflow-hidden">
                 <img src="https://breezefeel.github.io/healingtree.github.io/%EB%A9%94%EC%9D%B8%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png" alt="힐링트리 메인 배경" class="hero-bg-img w-full h-full object-cover origin-center" width="1920" height="1080" decoding="async">
                 <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/55 to-white/10 md:from-white/80 md:via-white/35 md:to-transparent"></div>
